@@ -24,7 +24,6 @@ module.exports =
         obj = @toObject()
         delete obj.passport
         delete obj.token
-        obj.groups = @groups or []
         return obj
   Passport: Waterline.Collection.extend
     identity: 'passport'

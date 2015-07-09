@@ -39,7 +39,12 @@ router.all '/info', (req, res, next) ->
     return res.json
       code: 400
   db.collections.user.findOne id
+  .populate 'groups'
   .then (user) ->
+    if not user?
+      res.status 404
+      return res.json
+        code: 404
     result = null
     result = user.toJSON() if user?
     res.json
@@ -52,6 +57,7 @@ router.all '/info', (req, res, next) ->
 
 router.all '/list', (req, res, next) ->
   db.collections.user.find()
+  .populate 'groups'
   .then (users) ->
     result = users.map (user) ->
       return user.toJSON()
