@@ -428,10 +428,7 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 ```js
 {
-  "code": 200,
-  "user": {
-    "유저 정보": "..." // User 스키마 참조
-  }
+  "code": 200
 }
 ```
 
