@@ -9,16 +9,14 @@ config = require './config'
 # Init ORM instance
 orm = new Waterline()
 
-# Upload models to ORM
-for key, collection of collections
-  log "Loading collection #{key}"
-  orm.loadCollection collection
-
 # Load ORM instance
 init = () ->
   Q.fcall () ->
     log 'Starting up the database'
-  .then () ->
+    # Upload models to ORM
+    for key, collection of collections
+      log "Loading collection #{key}"
+      orm.loadCollection collection
     Q.ninvoke orm, 'initialize', config.db
   .then (models) ->
     log 'Load complete'
