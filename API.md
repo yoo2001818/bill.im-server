@@ -362,7 +362,7 @@ API 레퍼런스
 
 #### 입력
 
-- api_token - API 토큰입니다.
+- apikey - API 토큰입니다.
 
 #### 출력
 
@@ -381,7 +381,7 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 #### 입력
 
-- api_token - API 토큰입니다.
+- apikey - API 토큰입니다.
 - token - GCM 토큰입니다.
 
 #### 출력
@@ -403,7 +403,7 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 #### 입력
 
-- api_token - API 토큰입니다.
+- apikey - API 토큰입니다.
 
 #### 출력
 
@@ -422,7 +422,7 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 #### 입력
 
-- api_token - API 토큰입니다.
+- apikey - API 토큰입니다.
 
 #### 출력
 
@@ -441,7 +441,7 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 #### 입력
 
-- api_token - API 토큰입니다.
+- apikey - API 토큰입니다.
 - name - 이름
 - phone - 전화번호
 - description - 간단한 프로필
@@ -485,7 +485,7 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 #### 입력
 
-- api_token - API 토큰입니다.
+- apikey - API 토큰입니다.
 
 #### 출력
 
@@ -506,7 +506,7 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 #### 입력
 
-- api_token - API 토큰입니다.
+- apikey - API 토큰입니다.
 - name - 그룹의 이름입니다.
 
 #### 출력
@@ -541,7 +541,7 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 #### 입력
 
-- api_token - API 토큰입니다.
+- apikey - API 토큰입니다.
 - id - 그룹의 ID입니다.
 
 #### 출력
@@ -587,7 +587,7 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 #### 입력
 
-- api_token - API 토큰입니다.
+- apikey - API 토큰입니다.
 - id - 그룹의 ID입니다.
 
 #### 출력

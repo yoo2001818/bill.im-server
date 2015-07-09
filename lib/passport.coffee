@@ -1,6 +1,7 @@
 passport = require 'passport'
 FacebookStrategy = require('passport-facebook').Strategy
 FacebookTokenStrategy = require('passport-facebook-token').Strategy
+LocalApiKeyStrategy = require('passport-localapikey').Strategy
 
 debug = require 'debug'
 log = debug 'app:passport'
@@ -52,5 +53,13 @@ oAuthVerifyLogin = (accessToken, refreshToken, profile, done) ->
 log 'Registering Facebook strategy'
 passport.use new FacebookStrategy config.auth.facebook, oAuthVerifyLogin
 passport.use new FacebookTokenStrategy config.auth.facebook, oAuthVerifyLogin
+
+log 'Registering Local API key strategy'
+passport.use new LocalApiKeyStrategy (apikey, done) ->
+  log 'Finding user information with the API key'
+  db.collections.user.findOne
+    token: apikey
+  .populate 'groups'
+  .then done
 
 module.exports = passport
