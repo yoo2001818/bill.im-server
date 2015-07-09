@@ -60,6 +60,8 @@ passport.use new LocalApiKeyStrategy (apikey, done) ->
   db.collections.user.findOne
     token: apikey
   .populate 'groups'
-  .then done
+  .then (user) ->
+    log 'Found user. Done!'
+    done null, user
 
 module.exports = passport

@@ -1,4 +1,4 @@
-passport = require '.passport'
+passport = require './passport'
 db = require './db'
 
 loginRequired = (req, res, next) ->

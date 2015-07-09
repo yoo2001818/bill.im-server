@@ -1,8 +1,10 @@
 Q = require 'q'
 express = require 'express'
 randtoken = require 'rand-token'
-passport = require '../lib/passport'
-db = require '../lib/db'
+
+passport = require '../../lib/passport'
+auth = require '../../lib/auth'
+db = require '../../lib/db'
 
 handleLogin = (method, req, res, next) ->
   passport.authenticate(method, (err, user, info) ->
@@ -37,5 +39,12 @@ router = express.Router()
 router.all '/facebook/token', handleLogin.bind null, 'facebook-token'
 router.get '/facebook', handleLogin.bind null, 'facebook'
 router.get '/facebook/callback', handleLogin.bind null, 'facebook'
+
+router.all '/logout', auth.loginRequired, (req, res, next) ->
+  req.user.token = null
+  req.user.save (err) ->
+    return next err if err
+    res.json
+      code: 200
 
 module.exports = router
