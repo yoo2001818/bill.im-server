@@ -21,7 +21,6 @@ handleLogin = (method, req, res, next) ->
       token: user.token
     .populate 'groups'
     .then (users) ->
-      user = users[0]
       res.json
         code: 200
         token: user.token

@@ -3,6 +3,7 @@ express = require 'express'
 
 db = require '../../lib/db'
 auth = require '../../lib/auth'
+param = require '../../lib/param'
 
 router = express.Router()
 
@@ -23,9 +24,9 @@ router.all '/self/delete', auth.loginRequired, (req, res, next) ->
     next e
 
 router.all '/self/set', auth.loginRequired, (req, res, next) ->
-  req.user.name = req.query.name
-  req.user.phone = req.query.phone
-  req.user.description = req.query.description
+  req.user.name = param req, 'name'
+  req.user.phone = param req, 'phone'
+  req.user.description = param req, 'description'
   req.user.save (err) ->
     return next err if err
     res.json
@@ -33,7 +34,7 @@ router.all '/self/set', auth.loginRequired, (req, res, next) ->
       user: req.user.toJSON()
 
 router.all '/info', (req, res, next) ->
-  id = parseInt req.query.id
+  id = parseInt param(req, 'id')
   if isNaN id
     res.status 400
     return res.json

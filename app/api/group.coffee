@@ -3,6 +3,7 @@ express = require 'express'
 
 db = require '../../lib/db'
 auth = require '../../lib/auth'
+param = require '../../lib/param'
 
 router = express.Router()
 
@@ -12,13 +13,13 @@ router.all '/self/list', auth.loginRequired, (req, res, next) ->
     groups: req.user.groups || []
 
 router.all '/self/create', auth.loginRequired, (req, res, next) ->
-  if not req.query.name?
+  if not param(req, 'name')?
     return res.json
       code: 400
   # Currently this doesn't check conflicts, but whatever. Fair enough
   req.user.groups.add
-    name: req.query.name
-    description: req.query.description
+    name: param req, 'name'
+    description: param req, 'description'
   req.user.save (err, user) ->
     res.json
       code: 200
@@ -26,7 +27,7 @@ router.all '/self/create', auth.loginRequired, (req, res, next) ->
       groups: user.groups
 
 router.all '/self/join', auth.loginRequired, (req, res, next) ->
-  id = parseInt req.query.id
+  id = parseInt param(req, 'id')
   if isNaN id
     res.status 400
     return res.json
@@ -55,7 +56,7 @@ router.all '/self/join', auth.loginRequired, (req, res, next) ->
     next e
 
 router.all '/self/part', auth.loginRequired, (req, res, next) ->
-  id = parseInt req.query.id
+  id = parseInt param(req, 'id')
   if isNaN id
     res.status 400
     return res.json
@@ -94,12 +95,12 @@ router.all '/list', (req, res, next) ->
     next e
 
 router.all '/search', (req, res, next) ->
-  if not req.query.name?
+  if not param(req, 'name')?
     return res.json
       code: 400
   db.collections.group.find
     name:
-      contains: req.query.name
+      contains: param(req, 'name')
   .then (groups) ->
     result = groups.map (group) ->
       return group.toJSON()
@@ -111,7 +112,7 @@ router.all '/search', (req, res, next) ->
     next e
 
 router.all '/info', (req, res, next) ->
-  id = parseInt req.query.id
+  id = parseInt param(req, 'id')
   if isNaN id
     res.status 400
     return res.json
