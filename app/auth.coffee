@@ -11,10 +11,11 @@ handleLogin = (method, req, res, next) ->
       res.status 401
       res.json
         code: 401
+        info: info
       return
     # Generate token and save...
     user.token = randtoken.generate 32
-    db.collections.User.update user.id,
+    db.collections.user.update user.id,
       token: user.token
     .populate 'groups'
     .then (users) ->
@@ -22,7 +23,7 @@ handleLogin = (method, req, res, next) ->
       res.json
         code: 200
         token: user.token
-        user: user
+        user: user.toJSON()
         'new': user.groups.length == 0
     .catch (err) ->
       res.status 500

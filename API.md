@@ -123,9 +123,34 @@ Boolean, not null. 사용자의 활성 상태입니다.
 
 String. 사용자의 API 토큰입니다.
 
-### auth
+### passport
 
-Object. 사용자의 인증 수단에 관한 정보입니다.
+Passport. 사용자의 인증 수단에 관한 정보입니다.
+
+Passport
+--------
+
+사용자의 인증 정보입니다.
+
+### id
+
+int, primary key. 고유 번호입니다.
+
+### user
+
+User. 인증 정보와 연결된 계정입니다.
+
+### type
+
+String, not null. 로그인할 때 사용되는 인증 방법입니다.
+
+### accessToken
+
+String. (OAuth 2.0) 사용자의 인증 액세스 토큰입니다.
+
+### refreshToken
+
+String. (OAuth 2.0) 사용자의 인증 새로고침 토큰입니다.
 
 Group
 -----

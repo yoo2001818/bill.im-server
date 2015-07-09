@@ -18,7 +18,26 @@ module.exports =
         required: true
         defaultsTo: true
       token: 'string'
-      auth: 'json' # Should be changed..
+      passport:
+        model: 'passport'
+      toJSON: () ->
+        obj = @toObject()
+        delete obj.passport
+        delete obj.token
+        obj.groups = @groups or []
+        return obj
+  Passport: Waterline.Collection.extend
+    identity: 'passport'
+    connection: 'default'
+    attributes:
+      user:
+        model: 'user'
+      type:
+        type: 'string'
+        required: true
+      identifier: 'string'
+      accessToken: 'string'
+      refreshToken: 'string'
   Group: Waterline.Collection.extend
     identity: 'group'
     connection: 'default'
