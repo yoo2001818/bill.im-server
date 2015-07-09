@@ -1,0 +1,31 @@
+{
+  "name": "bill.im-server",
+  "version": "1.0.0",
+  "description": "Server backend for bill.im",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yoo2001818/bill.im-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yoo2001818/bill.im-server/issues"
+  },
+  "homepage": "https://github.com/yoo2001818/bill.im-server#readme",
+  "dependencies": {
+    "body-parser": "^1.13.2",
+    "express": "^4.13.1",
+    "morgan": "^1.6.1",
+    "passport": "^0.2.2",
+    "passport-facebook": "^2.0.0",
+    "passport-facebook-token": "^2.2.0",
+    "passport-localapikey": "0.0.3",
+    "sails-memory": "^0.10.5",
+    "serve-static": "^1.10.0",
+    "waterline": "^0.10.25"
+  }
+}
