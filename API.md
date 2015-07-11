@@ -19,7 +19,7 @@ bill.im API 문서
 서버 -> 클라이언트 (Downstream)
 ----------------------------
 
-서버가 클라이언트에게 푸시 알림을 전송하는데는 
+서버가 클라이언트에게 푸시 알림을 전송하는데는
 [Google Cloud Messaging](https://developers.google.com/cloud-messaging)을
 사용합니다.
 
@@ -32,8 +32,8 @@ bill.im API 문서
 [여기](https://developers.google.com/cloud-messaging/android/client)를
 참조해 주세요.
 
-클라이언트는 자신의 `token`을 서버로 보내야 푸시 알림이 작동합니다. 
-자세한 사항은 이 문서의 **WIP**를 참조해 주세요.
+클라이언트는 자신의 `token`을 서버로 보내야 푸시 알림이 작동합니다.
+자세한 사항은 이 문서의 **WIP** 를 참조해 주세요.
 
 인증
 ===
@@ -59,12 +59,12 @@ API 토큰은 클라이언트가 저장하고 있어야 하며 외부에서 접�
 
 [클라이언트 API](https://developers.facebook.com/docs/facebook-login/android/v2.3)
 
-Facebook 로그인이 클라이언트 상에서 처리되면 클라이언트는 서버의 
-`/api/auth/facebook/token`으로 `access_token`에 AccessToken을 담은 POST 전송을 
+Facebook 로그인이 클라이언트 상에서 처리되면 클라이언트는 서버의
+`/api/auth/facebook/token`으로 `access_token`에 AccessToken을 담은 POST 전송을
 보냅니다.
 
-서버는 인증이 실패했는지 성공했는지 판단하고 그에 맞는 대답을 보냅니다. 
-자세한 사항은 이 문서의 **WIP**를 참조해 주세요.
+서버는 인증이 실패했는지 성공했는지 판단하고 그에 맞는 대답을 보냅니다.
+자세한 사항은 이 문서의 **WIP** 를 참조해 주세요.
 
 ### Google+ 로그인
 
@@ -176,7 +176,7 @@ Article
 
 ### id
 
-int, primary key. 게시글의 고유 번호입니다. 
+int, primary key. 게시글의 고유 번호입니다.
 
 ### group
 
@@ -564,6 +564,24 @@ HTTP 404
 
 HTTP 422
 
+### /api/group/list
+
+존재하는 그룹을 모두 나열합니다.
+
+#### 입력
+
+없음
+
+#### 출력
+
+```js
+[
+  {
+    "그룹 정보": "..." // Group 스키마 참조
+  }
+]
+```
+
 ### /api/group/search
 
 그룹을 이름으로 검색합니다.
@@ -599,3 +617,110 @@ HTTP 422
   "그룹 정보": "..." // Group 스키마 참조
 }
 ```
+
+게시글
+-----
+
+### /api/article/list
+
+해당 그룹의 게시글 목록을 반환합니다.
+
+목록은 가장 최신의 글이 맨 위에 있게 정렬되어 반환됩니다.
+
+#### 입력
+
+- group - 그룹의 고유번호입니다.
+- category - 가져올 게시글의 카테고리입니다. (기본=-1)
+- amount - 받아올 게시글의 양입니다. (기본=20)
+- start - 리스트의 맨 마지막에 있었던 게시글의 번호입니다. (기본=-1)
+
+#### 출력
+
+```js
+[
+  {
+    "게시글 정보": "..." // Article 스키마 참조
+  }
+]
+```
+
+### /api/article/search
+
+해당 이름으로 게시글들을 검색합니다.
+
+목록은 가장 최신의 글이 맨 위에 있게 정렬되어 반환됩니다.
+
+#### 입력
+
+- group - 그룹의 고유번호입니다.
+- name - 검색할 이름입니다.
+- category - 가져올 게시글의 카테고리입니다. (기본=-1)
+- amount - 받아올 게시글의 양입니다. (기본=20)
+- start - 리스트의 맨 마지막에 있었던 게시글의 번호입니다. (기본=-1)
+
+#### 출력
+
+```js
+[
+  {
+    "게시글 정보": "..." // Article 스키마 참조
+  }
+]
+```
+
+### /api/article/info
+
+게시글의 내용을 반환합니다.
+
+#### 입력
+
+- id - 게시글의 고유번호입니다.
+
+#### 출력
+
+```js
+{
+  "게시글 정보": "..." // Article 스키마 참조
+}
+```
+
+### /api/article/create
+
+### /api/article/modify
+
+### /api/article/delete
+
+### /api/article/self/list
+
+댓글
+---
+
+댓글은 해당 게시글을 읽을 때 게시글과 함께 댓글의 목록이 반환됩니다.
+
+### /api/comment/create
+
+### /api/comment/modify
+
+### /api/comment/delete
+
+
+트랜잭션
+-------
+
+### /api/transaction/self/list
+
+### /api/transaction/self/search
+
+### /api/transaction/create
+
+### /api/transaction/modify
+
+### /api/transaction/delete
+
+### /api/transaction/respond/accept
+
+### /api/transaction/respond/refuse
+
+### /api/transaction/update
+
+### /api/transaction/review
