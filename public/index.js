@@ -57,10 +57,10 @@ function testAPI(response) {
   }, function(data) {
     console.log(data);
     apikey = data.token;
-    user = data.user;
-    groups = data.user.groups;
+    user = data;
+    groups = data.groups;
     console.log(apikey);
-    document.getElementById('status').innerHTML = 'Hello, '+data.user.name;
+    document.getElementById('status').innerHTML = 'Hello, '+data.name;
     updateGroups();
   });
 }
@@ -86,13 +86,8 @@ function partGroup(id) {
     id: id,
     apikey: apikey
   }, function(data) {
-    console.log(data);
-    if(data.code == 200) {
-      groups = data.groups;
-      updateGroups();
-    } else {
-      alert(data);
-    }
+    groups = data.groups;
+    updateGroups();
   });
 }
 
@@ -100,7 +95,7 @@ function fetchGroupAll() {
   $.post('/api/group/list', {
   }, function(data) {
     console.log(data);
-    updateAllGroups(data.groups);
+    updateAllGroups(data);
   });
   return false;
 }
@@ -110,7 +105,7 @@ function fetchGroup(name) {
     name: name
   }, function(data) {
     console.log(data);
-    updateAllGroups(data.groups);
+    updateAllGroups(data);
   });
   return false;
 }
@@ -143,7 +138,7 @@ function inspectGroup(id) {
     id: id,
     apikey: apikey
   }, function(data) {
-    $('#groupuserlist').html(data.group.users.map(function(user) {
+    $('#groupuserlist').html(data.users.map(function(user) {
       return '<li>'+user.id+'# '+user.name+'</li>';
     }).join(''));
   });

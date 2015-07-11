@@ -8,6 +8,13 @@ module.exports =
     postgres: require 'sails-postgresql'
   connections:
     default:
-      adapter: 'disk'
+      adapter: 'postgres'
+      database: 'postgres',
+      host: process.env.POSTGRES_1_PORT_5432_TCP_ADDR,
+      user: 'postgres',
+      password: process.env.POSTGRES_1_ENV_POSTGRES_PASSWORD,
+      port: parseInt process.env.POSTGRES_1_PORT_5432_TCP_PORT,
+      pool: false,
+      ssl: false
   defaults:
     migrate: 'alter'
