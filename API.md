@@ -335,22 +335,14 @@ API 레퍼런스
 
 ```js
 {
-  "code": 200,
-  "token": "인증에 사용되는 API 토큰",
-  "user": {
-    "유저 정보": "..." // User 스키마를 참조하세요
-  }
-  "new": true // 새로 생성된 계정인지의 여부
+  "유저 정보": "..." // User 스키마를 참조하세요
+  // 이 유저 정보는 token 값을 포함하고 있음
 }
 ```
 
 ##### 로그인 실패
 
-```js
-{
-  "code": 401
-}
-```
+HTTP 401
 
 ### /api/auth/google/token
 
@@ -366,11 +358,7 @@ API 레퍼런스
 
 #### 출력
 
-```js
-{
-  "code": 200
-}
-```
+HTTP 200
 
 푸시 알림
 --------
@@ -386,11 +374,7 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 #### 출력
 
-```js
-{
-  "code": 200
-}
-```
+HTTP 200
 
 ### 메시지 읽음/삭제같은것도..
 
@@ -409,10 +393,7 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 ```js
 {
-  "code": 200,
-  "user": {
-    "유저 정보": "..." // User 스키마 참조
-  }
+  "유저 정보": "..." // User 스키마 참조
 }
 ```
 
@@ -426,11 +407,7 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 #### 출력
 
-```js
-{
-  "code": 200
-}
-```
+HTTP 200
 
 ### /api/user/self/set
 
@@ -447,10 +424,7 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 ```js
 {
-  "code": 200,
-  "user": {
-    "유저 정보": "..." // User 스키마 참조
-  }
+  "유저 정보": "..." // User 스키마 참조
 }
 ```
 
@@ -466,10 +440,7 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 ```js
 {
-  "code": 200,
-  "user": {
-    "유저 정보": "..." // User 스키마 참조
-  }
+  "유저 정보": "..." // User 스키마 참조
 }
 ```
 
@@ -487,14 +458,11 @@ Google Cloud Messaging의 토큰을 설정합니다.
 #### 출력
 
 ```js
-{
-  "code": 200,
-  "groups": [
-    {
-      "그룹 정보": "..." // Group 스키마 참조
-    }
-  ]
-}
+[
+  {
+    "그룹 정보": "..." // Group 스키마 참조
+  }
+]
 ```
 
 ### /api/group/self/create
@@ -513,10 +481,9 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 ```js
 {
-  "code": 200,
   "group": {
     "그룹 정보": "..." // Group 스키마 참조
-  }
+  },
   "groups": [ // 유저가 속한 그룹의 정보
     {
       "그룹 정보": "..." // Group 스키마 참조
@@ -527,11 +494,7 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 ##### 이미 해당 그룹이 존재하는 경우
 
-```js
-{
-  "code": 422
-}
-```
+HTTP 422
 
 ### /api/group/self/join
 
@@ -548,10 +511,9 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 ```js
 {
-  "code": 200,
   "group": {
     "그룹 정보": "..." // Group 스키마 참조
-  }
+  },
   "groups": [ // 유저가 속한 그룹의 정보
     {
       "그룹 정보": "..." // Group 스키마 참조
@@ -562,22 +524,11 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 ##### 그룹을 찾을 수 없는 경우
 
-```js
-{
-  "code": 404
-}
-```
+HTTP 404
 
 ##### 이미 해당 그룹에 등록된 경우
 
-```js
-{
-  "code": 422,
-  "group": {
-    "그룹 정보": "..." // Group 스키마 참조
-  }
-}
-```
+HTTP 422
 
 ### /api/group/self/part
 
@@ -594,10 +545,9 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 ```js
 {
-  "code": 200,
   "group": {
     "그룹 정보": "..." // Group 스키마 참조
-  }
+  },
   "groups": [ // 유저가 속한 그룹의 정보
     {
       "그룹 정보": "..." // Group 스키마 참조
@@ -608,22 +558,11 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 ##### 그룹을 찾을 수 없는 경우
 
-```js
-{
-  "code": 404
-}
-```
+HTTP 404
 
 ##### 이미 해당 그룹에 없는 경우
 
-```js
-{
-  "code": 422,
-  "group": {
-    "그룹 정보": "..." // Group 스키마 참조
-  }
-}
-```
+HTTP 422
 
 ### /api/group/search
 
@@ -636,15 +575,11 @@ Google Cloud Messaging의 토큰을 설정합니다.
 #### 출력
 
 ```js
-{
-  "code": 200,
-  "name": "검색 키워드",
-  "groups": [
-    {
-      "그룹 정보": "..." // Group 스키마 참조
-    }
-  ]
-}
+[
+  {
+    "그룹 정보": "..." // Group 스키마 참조
+  }
+]
 ```
 
 ### /api/group/info
@@ -661,9 +596,6 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 ```js
 {
-  "code": 200,
-  "group": {
-    "그룹 정보": "..." // Group 스키마 참조
-  }
+  "그룹 정보": "..." // Group 스키마 참조
 }
 ```

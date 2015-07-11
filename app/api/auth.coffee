@@ -10,10 +10,7 @@ handleLogin = (method, req, res, next) ->
   passport.authenticate(method, (err, user, info) ->
     return next err if err
     if !user
-      res.status 401
-      res.json
-        code: 401
-        info: info
+      res.sendStatus 401
       return
     # Generate token and save...
     user.token = randtoken.generate 32
@@ -21,15 +18,11 @@ handleLogin = (method, req, res, next) ->
       token: user.token
     .populate 'groups'
     .then (users) ->
-      res.json
-        code: 200
-        token: user.token
-        user: user.toJSON()
-        'new': user.groups.length == 0
+      userSerialized = user.toJSON()
+      userSerialized.token = user.token
+      res.json userSerialized
     .catch (err) ->
-      res.status 500
-      res.json
-        code: 500
+      res.sendStatus 500
     .done()
   )(req, res, next)
 
@@ -43,7 +36,6 @@ router.all '/logout', auth.loginRequired, (req, res, next) ->
   req.user.token = null
   req.user.save (err) ->
     return next err if err
-    res.json
-      code: 200
+    res.sendStatus 200
 
 module.exports = router

@@ -8,9 +8,7 @@ param = require '../../lib/param'
 router = express.Router()
 
 router.all '/self/info', auth.loginRequired, (req, res, next) ->
-  res.json
-    code: 200
-    user: req.user.toJSON()
+  res.json req.user.toJSON()
 
 router.all '/self/delete', auth.loginRequired, (req, res, next) ->
   # Delete passport associated with the user
@@ -18,8 +16,7 @@ router.all '/self/delete', auth.loginRequired, (req, res, next) ->
   .then () ->
     db.collections.user.destroy req.user.id
   .then () ->
-    res.json
-      code: 200
+    res.sendStatus 200
   .catch (e) ->
     next e
 
@@ -29,28 +26,20 @@ router.all '/self/set', auth.loginRequired, (req, res, next) ->
   req.user.description = param req, 'description'
   req.user.save (err) ->
     return next err if err
-    res.json
-      code: 200
-      user: req.user.toJSON()
+    res.json req.user.toJSON()
 
 router.all '/info', (req, res, next) ->
   id = parseInt param(req, 'id')
   if isNaN id
-    res.status 400
-    return res.json
-      code: 400
+    return res.sendStatus 400
   db.collections.user.findOne id
   .populate 'groups'
   .then (user) ->
     if not user?
-      res.status 404
-      return res.json
-        code: 404
+      return res.sendStatus 404
     result = null
     result = user.toJSON() if user?
-    res.json
-      code: 200
-      user: result
+    res.json result
   .catch (e) ->
     next e
 
@@ -62,9 +51,7 @@ router.all '/list', (req, res, next) ->
   .then (users) ->
     result = users.map (user) ->
       return user.toJSON()
-    res.json
-      code: 200
-      users: result
+    res.json result
   .catch (e) ->
     next e
 

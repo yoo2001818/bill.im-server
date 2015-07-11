@@ -5,10 +5,7 @@ loginRequired = (req, res, next) ->
   passport.authenticate('localapikey', (err, user, info) ->
     return next err if err
     if !user
-      res.status 401
-      res.json
-        code: 401
-        info: info
+      res.sendStatus 401
       return
     req.user = user
     next()
