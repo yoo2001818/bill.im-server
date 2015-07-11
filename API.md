@@ -189,14 +189,6 @@ int, not null. 다음 값 중 하나입니다.
 - 0 - 빌려주세요
 - 1 - 교환해요
 
-### state
-
-int, not null. 이 게시글의 상태입니다.
-
-- 0 - 대기 중
-- 1 - 거래 완료
-- 2 - 삭제됨
-
 ### name
 
 String, not null. 타겟 물건의 이름입니다.
@@ -225,10 +217,20 @@ String. 예상되는 거래 위치입니다.
 
 User, not null. 이 게시글을 작성한 사용자입니다.
 
-### transaction
+### responder
 
-Transaction, null. 이 게시글이 종속된 거래 요청입니다. 아직 거래가 성립되지 않은 경우
-null로 설정됩니다.
+User, not null. 거래를 제안한 사용자입니다. (게시글을 쓴 사람의 반대)
+
+### state
+
+int, not null. 이 거래의 상태입니다.
+
+- 0 - 대기 중
+- 1 - 삭제 됨
+- 2 - 승인
+- 3 - 빌려줌
+- 4 - 완료
+
 
 Comment
 -------
@@ -258,50 +260,6 @@ Article, not null. 이 댓글이 종속된 게시글입니다.
 ### reply
 
 User, not null. 비밀 글일 경우 이 비밀 글이 보일 유저를 설정합니다.
-
-### transaction
-
-Transaction, null. 이 댓글이 거래 요청 댓글일 경우 종속된 거래 요청을 설정합니다.
-
-Transaction
------------
-
-현재 진행 중인 거래 하나를 의미합니다.
-
-### id
-
-int, primary key. 거래의 고유 번호입니다.
-
-### requester
-
-User, not null. 게시글을 쓴 사람입니다.
-
-### responder
-
-User, not null. 거래를 제안한 사람입니다. (게시글을 쓴 사람의 반대)
-
-### article
-
-Article, not null. 이 거래가 종속된 게시글입니다.
-
-### state
-
-int, not null. 이 거래의 상태입니다.
-
-- 0 - 게시글 작성자의 응답을 기다리는 상태 (대기)
-- 1 - 거절
-- 2 - 삭제
-- 3 - 승인
-- 4 - 빌려줌
-- 5 - 완료
-
-### reward
-
-String, not null. 이 거래의 보상입니다.
-
-### location
-
-String, not null. 교환하는 위치입니다.
 
 API 레퍼런스
 ===========
@@ -702,25 +660,3 @@ HTTP 422
 ### /api/comment/modify
 
 ### /api/comment/delete
-
-
-트랜잭션
--------
-
-### /api/transaction/self/list
-
-### /api/transaction/self/search
-
-### /api/transaction/create
-
-### /api/transaction/modify
-
-### /api/transaction/delete
-
-### /api/transaction/respond/accept
-
-### /api/transaction/respond/refuse
-
-### /api/transaction/update
-
-### /api/transaction/review
