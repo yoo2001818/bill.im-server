@@ -773,6 +773,51 @@ HTTP 422
 
 ### /api/comment/create
 
+게시글에 댓글을 작성합니다.
+
+#### 입력
+
+- apikey - API 토큰입니다.
+- description - 댓글의 내용입니다.
+- secret - 이 댓글이 비밀 댓글인지의 여부입니다. (0이나 1)
+- reply - 이 댓글의 대상 유저의 id입니다.
+- article - 댓글을 쓸 게시글의 id입니다.
+
+#### 출력
+
+```js
+{
+  "댓글 정보": "..." // Comment 스키마 참조
+}
+```
+
 ### /api/comment/modify
 
+댓글을 수정합니다.
+
+#### 입력
+
+- apikey - API 토큰입니다.
+- id - 댓글의 ID입니다.
+- description - 댓글의 내용입니다.
+
+#### 출력
+
+```js
+{
+  "댓글 정보": "..." // Comment 스키마 참조
+}
+```
+
 ### /api/comment/delete
+
+댓글을 삭제합니다.
+
+#### 입력
+
+- apikey - API 토큰입니다.
+- id - 댓글의 ID입니다.
+
+#### 출력
+
+HTTP 200
