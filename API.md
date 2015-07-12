@@ -127,6 +127,18 @@ String. 사용자의 API 토큰입니다.
 
 Passport. 사용자의 인증 수단에 관한 정보입니다.
 
+### give
+
+int, not null. 빌려준 횟수입니다.
+
+### take
+
+int, not null. 빌린 횟수입니다.
+
+### exchange
+
+int, not null. 교환한 횟수입니다.
+
 Passport
 --------
 
