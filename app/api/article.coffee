@@ -43,22 +43,41 @@ router.all '/list', (req, res, next) ->
   .catch (e) ->
     next e
 
-router.all '/info', (req, res, next) ->
+handleInfo = (req, res, next) ->
   id = parseInt param(req, 'id')
   if isNaN id
     return res.sendStatus 400
   db.collections.article.findOne id
   .populate 'author'
   .populate 'responder'
-  .populate 'comments'
   .then (article) ->
     if not article?
       return res.sendStatus 404
-    result = null
-    result = article.toJSON() if article?
-    res.json result
+    result = article.toJSON()
+    # Populate comments. :(
+    query =
+      where:
+        article: article.id
+        or: [
+          secret: false
+        ]
+      sort: 'id DESC'
+    if req.user?
+      query.where.or.push
+        reply: req.user.id
+      if req.user.id == article.author.id
+        delete query.where.or
+    db.collections.comment.find query
+    .then (comments) ->
+      # Merge result and comments
+      result.comments = comments
+      res.json result
   .catch (e) ->
     next e
+
+router.all '/info', handleInfo
+
+router.all '/self/info', auth.loginRequired, handleInfo
 
 router.all '/self/create', auth.loginRequired, (req, res, next) ->
   template =
