@@ -4,6 +4,7 @@ express = require 'express'
 db = require '../../lib/db'
 auth = require '../../lib/auth'
 param = require '../../lib/param'
+gcm = require '../../lib/gcm'
 
 router = express.Router()
 
@@ -141,25 +142,31 @@ router.all '/self/confirm', auth.loginRequired, (req, res, next) ->
   db.collections.article.findOne id
   .then (article) ->
     return res.sendStatus 404 if not article?
-    # TODO push notification
     switch article.state
       when 0
         # return res.sendStatus 403 if article.author == req.user.id
         return db.collections.article.update id,
           state: 2
           responder: req.user.id
+        .populate 'author'
+        .populate 'responder'
       when 2
         return res.sendStatus 403 unless article.author == req.user.id
         return db.collections.article.update id,
           state: 3
+        .populate 'author'
+        .populate 'responder'
       when 3
         return res.sendStatus 403 unless article.responder == req.user.id
         return db.collections.article.update id,
           state: 4
+        .populate 'author'
+        .populate 'responder'
       else
         return res.sendStatus 403
   .then (articles) ->
     if articles && articles.length > 0
+      gcm.sendArticle articles[0], req.user
       res.json articles[0].toJSON()
 
 module.exports = router

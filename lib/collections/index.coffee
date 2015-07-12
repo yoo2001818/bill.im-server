@@ -19,6 +19,7 @@ module.exports =
         required: true
         defaultsTo: true
       token: 'string'
+      gcm: 'string'
       passport:
         model: 'passport'
       give:
@@ -37,6 +38,7 @@ module.exports =
         obj = @toObject()
         delete obj.passport
         delete obj.token
+        delete obj.gcm
         return obj
   Passport: Waterline.Collection.extend
     identity: 'passport'

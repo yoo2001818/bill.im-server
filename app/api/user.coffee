@@ -28,6 +28,12 @@ router.all '/self/set', auth.loginRequired, (req, res, next) ->
     return next err if err
     res.json req.user.toJSON()
 
+router.all '/self/gcm', auth.loginRequired, (req, res, next) ->
+  req.user.gcm = param req, 'gcm'
+  req.user.save (err) ->
+    return next err if err
+    res.sendStatus 200
+
 router.all '/info', (req, res, next) ->
   id = parseInt param(req, 'id')
   if isNaN id

@@ -4,6 +4,7 @@ express = require 'express'
 db = require '../../lib/db'
 auth = require '../../lib/auth'
 param = require '../../lib/param'
+gcm = require '../../lib/gcm'
 
 router = express.Router()
 
@@ -16,7 +17,7 @@ router.all '/create', auth.loginRequired, (req, res, next) ->
     author: req.user.id
   db.collections.comment.create template
   .then (comment) ->
-    # TODO Push notification, eh?
+    gcm.sendComment comment, req.user
     res.json comment.toJSON()
   .catch (e) ->
     res.sendStatus 400

@@ -143,6 +143,10 @@ int, not null. 빌린 횟수입니다.
 
 int, not null. 교환한 횟수입니다.
 
+### gcm
+
+String. GCM 키입니다.
+
 Passport
 --------
 
@@ -354,23 +358,25 @@ HTTP 200
 푸시 알림
 --------
 
-### /api/notification/token
+**유저로 옮겨감**
+
+### 메시지 읽음/삭제같은것도..
+
+유저
+----
+
+### /api/user/self/gcm
 
 Google Cloud Messaging의 토큰을 설정합니다.
 
 #### 입력
 
 - apikey - API 토큰입니다.
-- token - GCM 토큰입니다.
+- gcm - GCM 토큰입니다.
 
 #### 출력
 
 HTTP 200
-
-### 메시지 읽음/삭제같은것도..
-
-유저
-----
 
 ### /api/user/self/info
 
