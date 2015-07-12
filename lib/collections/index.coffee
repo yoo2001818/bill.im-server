@@ -1,5 +1,5 @@
 Waterline = require 'waterline'
-module.exports = 
+module.exports =
   User: Waterline.Collection.extend
     identity: 'user'
     connection: 'default'
@@ -9,7 +9,7 @@ module.exports =
         required: true
       phone: 'string'
       description: 'string'
-      groups: 
+      groups:
         collection: 'group'
         via: 'users'
         dominant: true
@@ -20,6 +20,18 @@ module.exports =
       token: 'string'
       passport:
         model: 'passport'
+      give:
+        type: 'int'
+        required: true
+        defaultsTo: 0
+      take:
+        type: 'int'
+        required: true
+        defaultsTo: 0
+      exchange:
+        type: 'int'
+        required: true
+        defaultsTo: 0
       toJSON: () ->
         obj = @toObject()
         delete obj.passport
@@ -59,10 +71,13 @@ module.exports =
         type: 'int'
         required: true
         in: [0, 1] # 빌려주세요, 교환해요
+      category:
+        type: 'int'
+        required: true
       state:
         type: 'int'
         required: true
-        in: [0, 1, 2] # 대기 중, 거래 완료, 삭제됨
+        in: [0, 1, 2, 3, 4] # 대기 중, 삭제 됨, 승인, 빌려줌, 완료
         defaultsTo: 0
       name:
         type: 'string'
@@ -73,8 +88,8 @@ module.exports =
       author:
         model: 'user'
         required: true
-      transaction:
-        model: 'transaction'
+      responder:
+        model: 'user'
   Comment: Waterline.Collection.extend
     identity: 'comment'
     connection: 'default'
@@ -94,29 +109,3 @@ module.exports =
         required: true
       reply:
         model: 'user'
-      transaction:
-        model: 'transaction'
-  Transaction: Waterline.Collection.extend
-    identity: 'transaction'
-    connection: 'default'
-    attributes:
-      requester:
-        model: 'user'
-        required: true
-      responder:
-        model: 'user'
-        required: true
-      article:
-        model: 'article'
-        required: true
-      state:
-        type: 'int'
-        in: [0, 1, 2, 3, 4, 5] # 대기, 거절, 삭제, 승인, 빌려줌, 완료
-        required: true
-        defaultsTo: 0
-      reward:
-        type: 'string'
-        required: true
-      location:
-        type: 'string'
-        required: true
