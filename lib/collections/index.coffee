@@ -21,15 +21,15 @@ module.exports =
       passport:
         model: 'passport'
       give:
-        type: 'int'
+        type: 'integer'
         required: true
         defaultsTo: 0
       take:
-        type: 'int'
+        type: 'integer'
         required: true
         defaultsTo: 0
       exchange:
-        type: 'int'
+        type: 'integer'
         required: true
         defaultsTo: 0
       toJSON: () ->
@@ -68,14 +68,14 @@ module.exports =
         model: 'group'
         required: true
       type:
-        type: 'int'
+        type: 'integer'
         required: true
         in: [0, 1] # 빌려주세요, 교환해요
       category:
-        type: 'int'
+        type: 'integer'
         required: true
       state:
-        type: 'int'
+        type: 'integer'
         required: true
         in: [0, 1, 2, 3, 4] # 대기 중, 삭제 됨, 승인, 빌려줌, 완료
         defaultsTo: 0
