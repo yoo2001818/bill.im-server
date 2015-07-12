@@ -50,9 +50,59 @@ router.all '/info', (req, res, next) ->
     if not article?
       return res.sendStatus 404
     result = null
-    result = article.toJSON() if group?
+    result = article.toJSON() if article?
     res.json result
   .catch (e) ->
     next e
+
+router.all '/self/create', auth.loginRequired, (req, res, next) ->
+  template =
+    group: param req, 'group'
+    category: param req, 'category'
+    type: param req, 'type'
+    name: param req, 'name'
+    description: param req, 'description'
+    reward: param req, 'reward'
+    location: param req, 'location'
+    author: req.user.id
+  db.collections.article.create template
+  .then (article) ->
+    res.json article.toJSON()
+  .catch (e) ->
+    res.sendStatus 400
+
+router.all '/self/modify', auth.loginRequired, (req, res, next) ->
+  id = param req, 'id'
+  author = req.user.id
+  query =
+    id: id
+    author: author
+    state: 0
+  template =
+    category: param req, 'category'
+    type: param req, 'type'
+    name: param req, 'name'
+    description: param req, 'description'
+    reward: param req, 'reward'
+    location: param req, 'location'
+  db.collections.article.update query, template
+  .then (articles) ->
+    return res.sendStatus 422 if articles.length == 0
+    res.json articles[0].toJSON()
+  .catch (e) ->
+    res.sendStatus 400
+
+router.all '/self/delete', auth.loginRequired, (req, res, next) ->
+  id = param req, 'id'
+  author = req.user.id
+  query =
+    id: id
+    author: author
+    state: 0
+  db.collections.article.destroy query
+  .then () ->
+    res.sendStatus 200
+  .catch (e) ->
+    res.sendStatus 400
 
 module.exports = router
