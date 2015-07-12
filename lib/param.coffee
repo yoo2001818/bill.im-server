@@ -1,4 +1,4 @@
-module.exports = (req, key) ->
+module.exports = (req, key, defaultVal) ->
   return req.query[key] if req.query[key]?
   return req.body[key] if req.body[key]?
-  return null
+  return defaultVal
