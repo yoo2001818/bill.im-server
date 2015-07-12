@@ -91,6 +91,9 @@ module.exports =
         required: true
       responder:
         model: 'user'
+      comments:
+        collection: 'comment'
+        via: 'article'
   Comment: Waterline.Collection.extend
     identity: 'comment'
     connection: 'default'

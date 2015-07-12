@@ -133,4 +133,32 @@ router.all '/self/list', auth.loginRequired, (req, res, next) ->
   .catch (e) ->
     next e
 
+router.all '/self/confirm', auth.loginRequired, (req, res, next) ->
+  id = parseInt param(req, 'id')
+  if isNaN id
+    return res.sendStatus 400
+  db.collections.article.findOne id
+  .then (article) ->
+    return res.sendStatus 404 if not article?
+    # TODO push notification
+    switch article.state
+      when 0
+        # return res.sendStatus 403 if article.author == req.user.id
+        return db.collections.article.update id,
+          state: 2
+          responder: req.user.id
+      when 2
+        return res.sendStatus 403 unless article.author == req.user.id
+        return db.collections.article.update id,
+          state: 3
+      when 3
+        return res.sendStatus 403 unless article.responder == req.user.id
+        return db.collections.article.update id,
+          state: 4
+      else
+        return res.sendStatus 403
+  .then (articles) ->
+    if articles && articles.length > 0
+      res.json articles[0].toJSON()
+
 module.exports = router
