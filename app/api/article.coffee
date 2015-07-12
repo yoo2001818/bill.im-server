@@ -31,7 +31,9 @@ router.all '/list', (req, res, next) ->
     where: where
     sort: 'id DESC'
   query.limit = amount if amount?
-  db.collections.article.find query # Populate users?
+  db.collections.article.find query
+  .populate 'author'
+  .populate 'responder' # Don't populate comments - it's not likely to be used
   .then (articles) ->
     result = articles.map (article) ->
       return article.toJSON()
@@ -46,6 +48,7 @@ router.all '/info', (req, res, next) ->
   db.collections.article.findOne id
   .populate 'author'
   .populate 'responder'
+  .populate 'comments'
   .then (article) ->
     if not article?
       return res.sendStatus 404
@@ -104,5 +107,30 @@ router.all '/self/delete', auth.loginRequired, (req, res, next) ->
     res.sendStatus 200
   .catch (e) ->
     res.sendStatus 400
+
+router.all '/self/list', auth.loginRequired, (req, res, next) ->
+  group = param req, 'group'
+  user = req.user.id
+  return res.sendStatus 400 if not group?
+  # Build criteria
+  where =
+    group: group
+    or: [
+      author: user
+    ,
+      responder: user
+    ]
+  query =
+    where: where
+    sort: 'id DESC'
+  db.collections.article.find query
+  .populate 'author'
+  .populate 'responder' # Don't populate comments - it's not likely to be used
+  .then (articles) ->
+    result = articles.map (article) ->
+      return article.toJSON()
+    res.json result
+  .catch (e) ->
+    next e
 
 module.exports = router
