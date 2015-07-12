@@ -9,6 +9,7 @@ module.exports =
         required: true
       phone: 'string'
       description: 'string'
+      photo: 'string'
       groups:
         collection: 'group'
         via: 'users'

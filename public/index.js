@@ -31,7 +31,7 @@ window.fbAsyncInit = function() {
     appId      : '655708987896404',
     cookie     : true,
     xfbml      : true,
-    version    : 'v2.2' 
+    version    : 'v2.2'
   });
 
   FB.getLoginStatus(function(response) {
@@ -139,7 +139,7 @@ function inspectGroup(id) {
     apikey: apikey
   }, function(data) {
     $('#groupuserlist').html(data.users.map(function(user) {
-      return '<li>'+user.id+'# '+user.name+'</li>';
+      return '<li><img src="'+user.photo+'" width="32">'+user.id+'# '+user.name+'</li>';
     }).join(''));
   });
 }

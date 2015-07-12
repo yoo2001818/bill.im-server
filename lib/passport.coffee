@@ -12,10 +12,13 @@ config = require './config'
 log 'Loading passport'
 
 oAuthVerifyLogin = (accessToken, refreshToken, profile, done) ->
-  userTemplate = 
+  userTemplate =
     name: 'Name unknown'
+    photo: null
   if profile && profile.displayName
     userTemplate.name = profile.displayName
+  if profile && profile.photos && profile.photos[0]
+    userTemplate.photo = profile.photos[0].value
   log 'Finding passport information'
   db.collections.passport.findOrCreate
     identifier: profile.id
@@ -27,7 +30,7 @@ oAuthVerifyLogin = (accessToken, refreshToken, profile, done) ->
     type: 'oauth'
   .then (passportObj) ->
     if passportObj.user?
-      log 'Found passport and user; Finding user' 
+      log 'Found passport and user; Finding user'
       return db.collections.user.findOne passportObj.user
       .populate 'groups'
     else

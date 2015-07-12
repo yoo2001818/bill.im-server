@@ -103,6 +103,10 @@ int, primary key. 사용자의 고유 번호입니다.
 
 String, not null. 사용자의 이름입니다.
 
+### photo
+
+String. 사용자의 프로필 사진입니다.
+
 ### phone
 
 String. 사용자의 전화번호입니다.
