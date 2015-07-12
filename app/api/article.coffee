@@ -10,6 +10,7 @@ router = express.Router()
 router.all '/list', (req, res, next) ->
   group = param req, 'group'
   category = param req, 'category', null
+  category = null if category == -1
   type = param req, 'type', null
   state = param req, 'state', 0
   amount = param req, 'amount', 20
