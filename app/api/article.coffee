@@ -15,7 +15,7 @@ router.all '/list', (req, res, next) ->
   type = param req, 'type', null
   state = param req, 'state', 0
   amount = param req, 'amount', 20
-  start = param req, 'start', 2<<30 # OK, this is definitely not the best way
+  start = param req, 'start', (2<<28) # OK, this is definitely not the best way
   name = param req, 'name', ''
   return res.sendStatus 400 if not group?
   # Build criteria

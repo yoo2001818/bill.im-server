@@ -44,5 +44,34 @@
       <ul id="groupuserlist">
       </ul>
     </div>
+    <div id="groupcon" style="display:none">
+      <div>
+        <h4>게시글 목록</h4>
+        <ul id="articlelist">
+        </ul>
+      </div>
+      <div>
+        <form id="articlecreate" onsubmit="return createArticle(this)">
+          새 글 작성하기
+          <input name="name" placeholder="이름">
+          <input name="description" placeholder="내용">
+          <input name="reward" placeholder="보상">
+          <input name="location" placeholder="위치">
+          <select name="type">
+            <option value="0">빌려주세요</option>
+            <option value="1">교환해요</option>
+          </select>
+          <select name="category">
+            <option value="0">필기구</option>
+            <option value="1">전자제품</option>
+            <option value="2">음식/음료</option>
+            <option value="3">옷</option>
+            <option value="4">책/문서</option>
+            <option value="5">기타</option>
+          </select>
+          <input type="submit">
+        </form>
+      </div>
+    </div>
   </body>
 </html>

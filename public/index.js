@@ -19,6 +19,7 @@ function statusChangeCallback(response) {
 var apikey;
 var user;
 var groups;
+var selectedGroup = 1;
 
 function checkLoginState() {
   FB.getLoginStatus(function(response) {
@@ -142,4 +143,34 @@ function inspectGroup(id) {
       return '<li><img src="'+user.photo+'" width="32">'+user.id+'# '+user.name+'</li>';
     }).join(''));
   });
+  selectedGroup = id;
+  $('#groupcon').show();
+  fetchArticle();
+}
+
+function fetchArticle() {
+  $.post('/api/article/list', {
+    group: selectedGroup,
+    start: 65536
+  }, function(data) {
+    $('#articlelist').html(data.map(function(user) {
+      return '<li>'+user.id+'# '+user.name+' - '+user.description+'</li>';
+    }).join(''));
+  });
+}
+
+function createArticle(data) {
+  $.post('/api/article/self/create', {
+    name: data.name.value,
+    description: data.description.value,
+    group: selectedGroup,
+    type: data.type.value,
+    category: data.category.value,
+    reward: data.reward.value,
+    location: data.location.value,
+    apikey: apikey
+  }, function(va) {
+    fetchArticle();
+  });
+  return false;
 }
