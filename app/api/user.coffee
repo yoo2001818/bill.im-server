@@ -14,7 +14,9 @@ router.all '/self/delete', auth.loginRequired, (req, res, next) ->
   # Delete passport associated with the user
   db.collections.passport.destroy req.user.passport
   .then () ->
-    db.collections.user.destroy req.user.id
+    db.collections.user.update req.user.id
+      enabled: false
+      token: null
   .then () ->
     res.sendStatus 200
   .catch (e) ->
