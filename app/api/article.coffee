@@ -95,6 +95,7 @@ router.all '/self/create', auth.loginRequired, (req, res, next) ->
       author: req.user.id
     template.photo = photo if photo? && photo.path?
     db.collections.article.create template
+    .populate 'author'
   .then (article) ->
     res.json article.toJSON()
   .catch (e) ->
@@ -115,6 +116,8 @@ router.all '/self/modify', auth.loginRequired, (req, res, next) ->
     reward: param req, 'reward'
     location: param req, 'location'
   db.collections.article.update query, template
+  .populate 'author'
+  .populate 'responder'
   .then (articles) ->
     return res.sendStatus 422 if articles.length == 0
     res.json articles[0].toJSON()
@@ -203,6 +206,8 @@ router.all '/self/confirm', auth.loginRequired, (req, res, next) ->
             article.responder.take += 1
           when 2
             # 여기서 뭐해야돼요 무슨 카운터 올려염ㅂㅈㅇㅈ멍ㅁ쟈어
+            article.author.give += 1
+            article.responder.take += 1
           when 3
             article.author.exchange += 1
             article.responder.exchange += 1
