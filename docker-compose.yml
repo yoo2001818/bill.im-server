@@ -2,6 +2,8 @@ web:
   build: .
   ports:
     - "80:8000"
+  volumes:
+    - /usr/src/app/uploads
   links:
     - postgres
 postgres:
