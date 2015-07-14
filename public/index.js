@@ -176,17 +176,26 @@ function readArticle(id) {
 }
 
 function createArticle(data) {
-  $.post('/api/article/self/create', {
-    name: data.name.value,
-    description: data.description.value,
-    group: selectedGroup,
-    type: data.type.value,
-    category: data.category.value,
-    reward: data.reward.value,
-    location: data.location.value,
-    apikey: apikey
-  }, function(va) {
-    fetchArticle();
+  var p1 = new FormData();
+  p1.append('name', data.name.value);
+  p1.append('description', data.description.value);
+  p1.append('group', selectedGroup);
+  p1.append('type', data.type.value);
+  p1.append('category', data.category.value);
+  p1.append('reward', data.reward.value);
+  p1.append('location', data.location.value);
+  p1.append('apikey', apikey);
+  p1.append('photo', data['photo'].files[0], data['photo'].files[0] && data['photo'].files[0].name);
+  $.ajax({
+    type: "POST",
+    url: '/api/article/self/create',
+    data: p1,
+    processData: false,
+    contentType: false,
+    success: function(va) {
+      console.log(va);
+      fetchArticle();
+    }
   });
   return false;
 }
