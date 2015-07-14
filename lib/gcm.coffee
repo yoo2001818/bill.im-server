@@ -53,6 +53,14 @@ sendComment = (comment, user) ->
 
 sendArticle = (article, user) ->
   switch article.state
+    when 0
+      # Send notification to responder
+      send article.responder.gcm,
+        title: '요청 취소'
+        body: "#{article.author.name}님이 회원님의 요청을 취소했습니다."
+        icon: 'ic_launcher'
+      ,
+        id: article.id
     when 2
       # Send notification to author
       send article.author.gcm,
@@ -63,7 +71,7 @@ sendArticle = (article, user) ->
         id: article.id
     when 3
       # Send notification to responder
-      send article.author.gcm,
+      send article.responder.gcm,
         title: '빌려줌'
         body: "#{article.author.name}님에게 물건을 빌려주었습니다."
         icon: 'ic_launcher'

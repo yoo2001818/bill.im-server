@@ -176,8 +176,10 @@ router.all '/self/confirm', auth.loginRequired, (req, res, next) ->
         .populate 'responder'
       when 2
         return res.sendStatus 403 unless article.author == req.user.id
+        state = 3
+        state = 4 if article.type == 2 || article.type == 3
         return db.collections.article.update id,
-          state: 3
+          state: state
         .populate 'author'
         .populate 'responder'
       when 3
@@ -192,5 +194,27 @@ router.all '/self/confirm', auth.loginRequired, (req, res, next) ->
     if articles && articles.length > 0
       gcm.sendArticle articles[0], req.user
       res.json articles[0].toJSON()
+    else
+      return res.sendStatus 422
+
+router.all '/self/cancel', auth.loginRequired, (req, res, next) ->
+  id = parseInt param(req, 'id')
+  if isNaN id
+    return res.sendStatus 400
+  db.collections.article.update
+    id: id
+    state: 2
+    author: req.user.id
+  ,
+    state: 0
+    responder: null
+  .populate 'author'
+  .populate 'responder'
+  .then (articles) ->
+    if articles && articles.length > 0
+      gcm.sendArticle articles[0], req.user
+      res.json articles[0].toJSON()
+    else
+      return res.sendStatus 403
 
 module.exports = router
