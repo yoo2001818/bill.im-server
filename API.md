@@ -249,6 +249,10 @@ String, not null. 예상되는 보상입니다.
 
 String. 예상되는 거래 위치입니다.
 
+### photo
+
+String. 사진 파일의 경로입니다.
+
 ### author
 
 User, not null. 이 게시글을 작성한 사용자입니다.

@@ -85,6 +85,7 @@ module.exports =
       name:
         type: 'string'
         required: true
+      photo: 'string'
       description: 'string'
       reward: 'string'
       location: 'string'

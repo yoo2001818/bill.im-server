@@ -5,6 +5,7 @@ db = require '../../lib/db'
 auth = require '../../lib/auth'
 param = require '../../lib/param'
 gcm = require '../../lib/gcm'
+image = require '../lib/image'
 
 router = express.Router()
 
@@ -80,16 +81,20 @@ router.all '/info', handleInfo
 router.all '/self/info', auth.loginRequired, handleInfo
 
 router.all '/self/create', auth.loginRequired, (req, res, next) ->
-  template =
-    group: param req, 'group'
-    category: param req, 'category'
-    type: param req, 'type'
-    name: param req, 'name'
-    description: param req, 'description'
-    reward: param req, 'reward'
-    location: param req, 'location'
-    author: req.user.id
-  db.collections.article.create template
+  photo = req.body.photo
+  image.resize photo
+  .then () ->
+    template =
+      group: param req, 'group'
+      category: param req, 'category'
+      type: param req, 'type'
+      name: param req, 'name'
+      description: param req, 'description'
+      reward: param req, 'reward'
+      location: param req, 'location'
+      author: req.user.id
+    template.photo = photo if photo.path?
+    db.collections.article.create template
   .then (article) ->
     res.json article.toJSON()
   .catch (e) ->
