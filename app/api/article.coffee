@@ -95,9 +95,10 @@ router.all '/self/create', auth.loginRequired, (req, res, next) ->
       author: req.user.id
     template.photo = photo if photo? && photo.path?
     db.collections.article.create template
-    .populate 'author'
   .then (article) ->
-    res.json article.toJSON()
+    obj = article.toJSON()
+    obj.author = req.user
+    res.json obj
   .catch (e) ->
     res.sendStatus 400
 
@@ -221,8 +222,8 @@ router.all '/self/confirm', auth.loginRequired, (req, res, next) ->
       throw new Error()
   .then (article) ->
     # Issue GCM push notification
-    gcm.sendArticle articles, req.user
-    res.json articles.toJSON()
+    gcm.sendArticle article, req.user
+    res.json article.toJSON()
   .catch (e) ->
     return res.sendStatus 422
 
