@@ -81,7 +81,7 @@ router.all '/info', handleInfo
 router.all '/self/info', auth.loginRequired, handleInfo
 
 router.all '/self/create', auth.loginRequired, (req, res, next) ->
-  photo = req.body.photo
+  photo = req.files.photo
   image.resize photo
   .then () ->
     template =
