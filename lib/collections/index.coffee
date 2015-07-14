@@ -73,7 +73,7 @@ module.exports =
       type:
         type: 'integer'
         required: true
-        in: [0, 1] # 빌려주세요, 교환해요
+        in: [0, 1, 2, 3] # 빌려주세요, 빌려드려요, 교환해요, 드려요
       category:
         type: 'integer'
         required: true
