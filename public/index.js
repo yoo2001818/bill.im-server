@@ -21,6 +21,8 @@ var user;
 var groups;
 var selectedGroup = 1;
 
+var articleList = {};
+
 function checkLoginState() {
   FB.getLoginStatus(function(response) {
     statusChangeCallback(response);
@@ -154,9 +156,23 @@ function fetchArticle() {
     start: 65536
   }, function(data) {
     $('#articlelist').html(data.map(function(user) {
-      return '<li>'+user.id+'# '+user.name+' - '+user.description+'</li>';
+      articleList[user.id] = user;
+      return '<li>'+user.id+'# '+user.name+' - '+user.description+
+      ' <a href="#" onclick="readArticle('+user.id+')">읽기</a></li>';
     }).join(''));
   });
+}
+
+function readArticle(id) {
+  var article = articleList[id];
+  $('#articleview').html('<img src="'+article.photo+'">'+
+    '<h1>'+article.name+'</h1>'+
+    'type '+article.type+' category+'+article.category+
+    'state '+article.state+'<br>'+
+    '<p>'+article.description+'</p>'+
+    '<p>'+article.reward+'</p>'+
+    '<p>'+article.location+'</p>'+
+    '<p> author '+article.author.name+'</p>');
 }
 
 function createArticle(data) {
