@@ -3,6 +3,7 @@ Q = require 'q'
 
 isImage = (file) ->
   return false unless file?
+  return false unless file.mimetype?
   return file.mimetype.slice(0, 5) == 'image'
 resize = (file, callback) ->
   return Q.resolve() unless isImage file
