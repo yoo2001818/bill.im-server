@@ -1,2 +1,2 @@
 module.exports =
-  key: '__not_set_yet__'
+  key: 'AIzaSyDt4-W06eBjaVRmNiWKUnfIIEOebfsL7cw'

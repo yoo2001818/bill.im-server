@@ -17,11 +17,11 @@ sender.handler = (err, result) ->
 send = (target, notification, data) ->
   log 'Sending notification'
   log notification
-  return unless target?
+  # return unless target?
   message = new gcm.Message()
   message.addData data
   message.addNotification notification
-  sender.send message, [target], sender.handler
+  sender.sendNoRetry message, [target], sender.handler
 
 sendComment = (comment, user) ->
   # Send notification to article author

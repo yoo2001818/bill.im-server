@@ -192,10 +192,34 @@ router.all '/self/confirm', auth.loginRequired, (req, res, next) ->
         return res.sendStatus 403
   .then (articles) ->
     if articles && articles.length > 0
-      gcm.sendArticle articles[0], req.user
-      res.json articles[0].toJSON()
+      if articles[0].state == 4
+        # Increment values...
+        switch article.type
+          when 0
+            article.author.take += 1
+            article.responder.give += 1
+          when 1
+            article.author.give += 1
+            article.responder.take += 1
+          when 2
+            # 여기서 뭐해야돼요 무슨 카운터 올려염ㅂㅈㅇㅈ멍ㅁ쟈어
+          when 3
+            article.author.exchange += 1
+            article.responder.exchange += 1
+        # Save changes to the server.
+        return Q.ninvoke article.author, 'save'
+        .then Q.ninvoke article.responder, 'save'
+        .then () ->
+          article
+      return articles[0]
     else
-      return res.sendStatus 422
+      throw new Error()
+  .then (article) ->
+    # Issue GCM push notification
+    gcm.sendArticle articles, req.user
+    res.json articles.toJSON()
+  .catch (e) ->
+    return res.sendStatus 422
 
 router.all '/self/cancel', auth.loginRequired, (req, res, next) ->
   id = parseInt param(req, 'id')
