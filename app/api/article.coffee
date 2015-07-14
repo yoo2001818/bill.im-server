@@ -5,7 +5,7 @@ db = require '../../lib/db'
 auth = require '../../lib/auth'
 param = require '../../lib/param'
 gcm = require '../../lib/gcm'
-image = require '../lib/image'
+image = require '../../lib/image'
 
 router = express.Router()
 
