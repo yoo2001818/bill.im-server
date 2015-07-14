@@ -93,7 +93,7 @@ router.all '/self/create', auth.loginRequired, (req, res, next) ->
       reward: param req, 'reward'
       location: param req, 'location'
       author: req.user.id
-    template.photo = photo if photo? && photo.path?
+    template.photo = photo.path if photo? && photo.path?
     db.collections.article.create template
   .then (article) ->
     obj = article.toJSON()
