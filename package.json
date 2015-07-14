@@ -4,7 +4,7 @@
   "description": "Server backend for bill.im",
   "main": "index.js",
   "scripts": {
-    "start": "DEBUG=app:* ./node_modules/.bin/coffee index.coffee",
+    "start": "while [ 1 ]; do DEBUG=app:* ./node_modules/.bin/coffee index.coffee; done",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
