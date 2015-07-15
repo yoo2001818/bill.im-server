@@ -199,6 +199,7 @@ router.all '/self/confirm', auth.loginRequired, (req, res, next) ->
         return res.sendStatus 403
   .then (articles) ->
     if articles && articles.length > 0
+      article = articles[0]
       if articles[0].state == 2
         article.description += "\n 빌려준 사람: "+req.user.name
         return Q.ninvoke article, 'save'
@@ -233,6 +234,7 @@ router.all '/self/confirm', auth.loginRequired, (req, res, next) ->
     gcm.sendArticle article, req.user
     res.json article.toJSON()
   .catch (e) ->
+    console.log e
     return res.sendStatus 422
 
 router.all '/self/cancel', auth.loginRequired, (req, res, next) ->
