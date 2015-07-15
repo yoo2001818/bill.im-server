@@ -10,7 +10,6 @@ resize = (file, callback) ->
   image = gm file.path
   # Should not use hard coding.
   .resize 720, 720, '>'
-  .noProfile()
   # Use promise...
   return Q.ninvoke image, 'write', file.path
 
