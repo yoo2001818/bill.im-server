@@ -172,13 +172,14 @@ router.all '/self/confirm', auth.loginRequired, (req, res, next) ->
   .populate 'author'
   .populate 'responder'
   .then (article) ->
-    return res.sendStatus 404 if not article?
+    return if not article?
     switch article.state
       when 0
         # return res.sendStatus 403 if article.author == req.user.id
         return db.collections.article.update id,
           state: 2
           responder: req.user.id
+          description: article.description+"\n응답한 사용자: "+req.user.name
         .populate 'author'
         .populate 'responder'
       when 2
@@ -200,11 +201,6 @@ router.all '/self/confirm', auth.loginRequired, (req, res, next) ->
   .then (articles) ->
     if articles && articles.length > 0
       article = articles[0]
-      if articles[0].state == 2
-        article.description += "\n 빌려준 사람: "+req.user.name
-        return Q.ninvoke article, 'save'
-        .then () ->
-          article
       if articles[0].state == 4
         # Increment values...
         switch article.type
