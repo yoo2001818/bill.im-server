@@ -139,18 +139,18 @@ router.all '/self/delete', auth.loginRequired, (req, res, next) ->
     res.sendStatus 400
 
 router.all '/self/list', auth.loginRequired, (req, res, next) ->
-  group = param req, 'group'
+  group = parseInt param(req, 'group')
+  if isNaN group
+    return res.sendStatus 400
   user = req.user.id
-  return res.sendStatus 400 if not group?
   # Build criteria
   where =
-    group: group
     or: [
       author: user
     ,
       responder: user
     ]
-  delete where.group if group == -1
+  where.group = group unless group == -1
   query =
     where: where
     sort: 'id DESC'
