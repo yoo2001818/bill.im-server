@@ -218,8 +218,15 @@ router.all '/self/confirm', auth.loginRequired, (req, res, next) ->
             article.author.exchange += 1
             article.responder.exchange += 1
         # Save changes to the server.
-        return Q.ninvoke article.author, 'save'
-        .then Q.ninvoke article.responder, 'save'
+        return db.collections.user.update article.author.id
+          take: article.author.take
+          give: article.author.give
+          exchange: article.author.exchange
+        .then () ->
+          db.collections.user.update article.responder.id
+            take: article.responder.take
+            give: article.responder.give
+            exchange: article.responder.exchange
         .then () ->
           article
       return articles[0]
