@@ -150,6 +150,7 @@ router.all '/self/list', auth.loginRequired, (req, res, next) ->
     ,
       responder: user
     ]
+  delete where.group if group == -1
   query =
     where: where
     sort: 'id DESC'
