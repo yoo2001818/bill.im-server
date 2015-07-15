@@ -169,6 +169,8 @@ router.all '/self/confirm', auth.loginRequired, (req, res, next) ->
   if isNaN id
     return res.sendStatus 400
   db.collections.article.findOne id
+  .populate 'author'
+  .populate 'responder'
   .then (article) ->
     return res.sendStatus 404 if not article?
     switch article.state
@@ -197,6 +199,11 @@ router.all '/self/confirm', auth.loginRequired, (req, res, next) ->
         return res.sendStatus 403
   .then (articles) ->
     if articles && articles.length > 0
+      if articles[0].state == 2
+        article.description += "\n 빌려준 사람: "+req.user.name
+        return Q.ninvoke article, 'save'
+        .then () ->
+          article
       if articles[0].state == 4
         # Increment values...
         switch article.type
