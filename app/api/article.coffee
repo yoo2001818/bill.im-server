@@ -183,7 +183,7 @@ router.all '/self/confirm', auth.loginRequired, (req, res, next) ->
         .populate 'author'
         .populate 'responder'
       when 2
-        return res.sendStatus 403 unless article.author == req.user.id
+        return unless article.author.id == req.user.id
         state = 3
         state = 4 if article.type == 2 || article.type == 3
         return db.collections.article.update id,
@@ -191,7 +191,7 @@ router.all '/self/confirm', auth.loginRequired, (req, res, next) ->
         .populate 'author'
         .populate 'responder'
       when 3
-        return res.sendStatus 403 unless article.responder == req.user.id
+        return unless article.responder.id == req.user.id
         return db.collections.article.update id,
           state: 4
         .populate 'author'
