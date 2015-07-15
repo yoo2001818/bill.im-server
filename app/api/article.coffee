@@ -202,31 +202,38 @@ router.all '/self/confirm', auth.loginRequired, (req, res, next) ->
     if articles && articles.length > 0
       article = articles[0]
       if articles[0].state == 4
-        # Increment values...
-        switch article.type
-          when 0
-            article.author.take += 1
-            article.responder.give += 1
-          when 1
-            article.author.give += 1
-            article.responder.take += 1
-          when 2
-            # 여기서 뭐해야돼요 무슨 카운터 올려염ㅂㅈㅇㅈ멍ㅁ쟈어
-            article.author.give += 1
-            article.responder.take += 1
-          when 3
-            article.author.exchange += 1
-            article.responder.exchange += 1
         # Save changes to the server.
-        return db.collections.user.update article.author.id
-          take: article.author.take
-          give: article.author.give
-          exchange: article.author.exchange
+        return db.collections.user.findOne article.author
+        .then (author) ->
+          switch article.type
+            when 0
+              author.take += 1
+            when 1
+              author.give += 1
+            when 2
+              author.give += 1
+            when 3
+              author.exchange += 1
+          db.collections.user.update author.id
+            take: author.take
+            give: author.give
+            exchange: author.exchange
         .then () ->
-          db.collections.user.update article.responder.id
-            take: article.responder.take
-            give: article.responder.give
-            exchange: article.responder.exchange
+          db.collections.user.findOne article.responder
+        .then (responder) ->
+          switch article.type
+            when 0
+              responder.give += 1
+            when 1
+              responder.take += 1
+            when 2
+              responder.take += 1
+            when 3
+              responder.exchange += 1
+          db.collections.user.update responder.id
+            take: responder.take
+            give: responder.give
+            exchange: responder.exchange
         .then () ->
           article
       return articles[0]
