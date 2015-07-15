@@ -214,7 +214,7 @@ router.all '/self/confirm', auth.loginRequired, (req, res, next) ->
               author.give += 1
             when 3
               author.exchange += 1
-          db.collections.user.update author.id
+          db.collections.user.update author.id,
             take: author.take
             give: author.give
             exchange: author.exchange
@@ -230,7 +230,7 @@ router.all '/self/confirm', auth.loginRequired, (req, res, next) ->
               responder.take += 1
             when 3
               responder.exchange += 1
-          db.collections.user.update responder.id
+          db.collections.user.update responder.id,
             take: responder.take
             give: responder.give
             exchange: responder.exchange
